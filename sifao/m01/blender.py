@@ -1,21 +1,15 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Blender python script for rendering x3d scenes
-# Tobias Holzmann
-# February 2016
-# Tobias.Holzmann@Holzmann-cfd.de
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Adaptado de Tobias Holzmann por Livia Jatoba e Ivison Siqueira
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
 
 import bpy
 
 # Loop through all x3d files
 # Change the number 104 to the timesteps you have
-for num in range(104):
+for num in range(18):
     # Open the file
     # Your file locations
-    file = '/home/liviajatoba/OpenFOAM/ISiqueira/sifao/m01/blendMe/x3d/blenderX3D_%d.x3d' % num
+    file = '/home/liviajatoba/OpenFOAM/orientacoes/ivison/OpenFOAM/sifao/m01/blendMe/x3d/blenderX3D_%d.x3d' % num
     print('Render %s' % file)
     bpy.ops.import_scene.x3d(filepath=file, axis_forward='Y', axis_up='Z')
     bpy.context.scene.world.horizon_color = (1, 1, 1)
@@ -51,7 +45,6 @@ for num in range(104):
     ### Altera para modo Cycler de renderizacao
     ######################
     bpy.context.scene.render.engine = 'CYCLES'
-    bpy.context.scene.world.horizon_color = (0.6, 0.8, 0.8)
     #bpy.context.space_data.context = 'RENDER_LAYER'
     bpy.context.scene.render.layers["RenderLayer"].samples = 200
     bpy.context.scene.render.layers["RenderLayer"].use_pass_shadow = True
@@ -260,65 +253,19 @@ for num in range(104):
     bpy.ops.object.select_all(action='TOGGLE')
     
     ######################
-    ### plano mesa
-    ######################
-    bpy.ops.mesh.primitive_plane_add(radius=1, location=(0, 0, 0))
-    bpy.context.object.dimensions[0] = 50
-    bpy.context.object.dimensions[1] = 50
-    
-        #edita a luz do plano
-    bpy.context.scene.objects.active = None
-    bpy.context.scene.objects.active =bpy.data.objects["Plane.004"]
- 
-    ob = bpy.context.active_object
-
-    # Create material
-    mat = bpy.data.materials.new(name="MaterialPlane")
-
-    # Assign it to object
-    if len(ob.data.materials):
-        # assign to 1st material slot
-        ob.data.materials[0] = mat
-    else:
-        # no slots
-        ob.data.materials.append(mat)
-
-    # Activated material -> cmat
-    cmat=ob.active_material
-    cmat.use_nodes=True
-    TreeNodes=cmat.node_tree
-    links = TreeNodes.links
-
-    # Remove nodes (clean it)
-    for node in TreeNodes.nodes:
-        TreeNodes.nodes.remove(node)
-
-    # Add the guy to the node view 
-    # Output node
-    node_out = TreeNodes.nodes.new(type='ShaderNodeOutputMaterial')
-    node_out.location = 200,0
-    
-    # Emission
-    node_emission = TreeNodes.nodes.new(type='Diffuse BSDF')
-    node_emission.location = 0,0
-    node_emission.inputs[0].default_value = default_value = (0.8, 0.3, 0, 1)
-    
-    # Connect the guys
-    links.new(node_emission.outputs[0], node_out.inputs[0])
-
-    # Deselect everything
-    bpy.ops.object.select_all(action='TOGGLE')
-
-    ######################
     ### Edit wine
     ######################
     bpy.data.objects["Vinho"].select = True
     bpy.context.scene.objects.active = None
     bpy.context.scene.objects.active =bpy.data.objects["Vinho"]
+    #bpy.context.object.scale[0] = 0.99
+    #bpy.context.object.scale[1] = 0.99
+    #bpy.context.object.scale[2] = 0.99
+
 
     bpy.context.object.active_material_index = 0
     bpy.ops.object.material_slot_remove()
-    bpy.ops.object.shade_smooth()
+    #bpy.ops.object.shade_smooth()
 
     # Create material
     mat = bpy.data.materials.new(name="MaterialVinho")
@@ -373,6 +320,9 @@ for num in range(104):
     bpy.data.objects["Taca"].select = True
     bpy.context.scene.objects.active = None
     bpy.context.scene.objects.active =bpy.data.objects["Taca"]
+    #bpy.context.object.scale[0] = 1
+    #bpy.context.object.scale[1] = 1
+    #bpy.context.object.scale[2] = 1
     bpy.context.object.active_material_index = 0
     bpy.ops.object.material_slot_remove()
     
@@ -421,7 +371,7 @@ for num in range(104):
     
     bpy.context.scene.cycles.samples = 200
     
-    bpy.data.scenes['Scene'].render.filepath = '/home/liviajatoba/OpenFOAM/ISiqueira/sifao/m01/blendMe/animacao/blended-%d.png' % num
+    bpy.data.scenes['Scene'].render.filepath = '/home/liviajatoba/OpenFOAM/orientacoes/ivison/OpenFOAM/sifao/m01/blendMe/animacao/blended-%d.png' % num
     bpy.ops.render.render( write_still = True )
   
 
