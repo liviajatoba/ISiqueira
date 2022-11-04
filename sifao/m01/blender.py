@@ -1,15 +1,20 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Blender python script for rendering x3d scenes
+# Tobias Holzmann
+# February 2016
+# Tobias.Holzmann@Holzmann-cfd.de
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Adaptado de Tobias Holzmann por Livia Jatoba e Ivison Siqueira
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 import bpy
 
 # Loop through all x3d files
 # Change the number 104 to the timesteps you have
-for num in range(18):
+for num in range(104):
     # Open the file
     # Your file locations
-    file = '/home/liviajatoba/OpenFOAM/orientacoes/ivison/OpenFOAM/sifao/m01/blendMe/x3d/blenderX3D_%d.x3d' % num
+    file = '/home/liviajatoba/OpenFOAM/ISiqueira/sifao/m01/blendMe/x3d/blenderX3D_%d.x3d' % num
     print('Render %s' % file)
     bpy.ops.import_scene.x3d(filepath=file, axis_forward='Y', axis_up='Z')
     bpy.context.scene.world.horizon_color = (1, 1, 1)
@@ -371,7 +376,7 @@ for num in range(18):
     
     bpy.context.scene.cycles.samples = 200
     
-    bpy.data.scenes['Scene'].render.filepath = '/home/liviajatoba/OpenFOAM/orientacoes/ivison/OpenFOAM/sifao/m01/blendMe/animacao/blended-%d.png' % num
+    bpy.data.scenes['Scene'].render.filepath = '/home/liviajatoba/OpenFOAM/ISiqueira/sifao/m01/animacao/blended-%d.png' % num
     bpy.ops.render.render( write_still = True )
   
 
