@@ -1,0 +1,15 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+cd ..
+foamLog log.interFoam
+
+grep "delta" log.interFoam > residuos/deltaT_org.dat
+sed -i 's/deltaT = //g' residuos/deltaT_org.dat
+paste logs/Time_0 residuos/deltaT_org.dat > residuos/deltaT.dat
+
+cd residuos
+gnuplot *.plt
