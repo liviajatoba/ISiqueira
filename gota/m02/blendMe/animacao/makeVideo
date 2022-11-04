@@ -1,0 +1,1 @@
+ffmpeg -framerate 10 -i blended-%d.png output.mp4
